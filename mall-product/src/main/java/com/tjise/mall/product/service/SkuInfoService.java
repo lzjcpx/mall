@@ -1,0 +1,20 @@
+package com.tjise.mall.product.service;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.tjise.common.utils.PageUtils;
+import com.tjise.mall.product.entity.SkuInfoEntity;
+
+import java.util.Map;
+
+/**
+ * sku信息
+ *
+ * @author liuzijing
+ * @email liuzijing@qq.com
+ * @date 2022-09-27 18:08:10
+ */
+public interface SkuInfoService extends IService<SkuInfoEntity> {
+
+    PageUtils queryPage(Map<String, Object> params);
+}
+
