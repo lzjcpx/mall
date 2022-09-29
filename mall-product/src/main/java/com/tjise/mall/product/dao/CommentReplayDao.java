@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
  * 
  * @author liuzijing
  * @email liuzijing@qq.com
- * @date 2022-09-27 18:08:10
+ * @date 2022-09-28 14:31:52
  */
 @Mapper
 public interface CommentReplayDao extends BaseMapper<CommentReplayEntity> {

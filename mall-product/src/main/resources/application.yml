@@ -4,12 +4,23 @@ spring:
     password: 123456
     url: jdbc:mysql://192.168.10.200/mall_pms
     driver-class-name: com.mysql.jdbc.Driver
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    alicloud:
+      access-key: LTAI5t9njHMkbxuYiaDix281
+      secret-key: N2KYSlXOhY6CNJEGn5RmKCYJUMHygA
+      oss:
+        endpoint: oss-cn-beijing.aliyuncs.com
 
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml
   global-config:
     db-config:
       id-type: auto
+      logic-delete-value: 1
+      logic-not-delete-value: 0
 
 server:
-  port: 10000
+  port: 12000
