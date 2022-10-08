@@ -20,9 +20,9 @@ import com.tjise.common.utils.R;
 /**
  * 会员登录记录
  *
- * @author liuzijing
- * @email liuzijing@qq.com
- * @date 2022-09-27 18:17:27
+ * @author LZJ
+ * @email 240582597@qq.com
+ * @date 2019-10-08 09:47:05
  */
 @RestController
 @RequestMapping("member/memberloginlog")
@@ -34,6 +34,7 @@ public class MemberLoginLogController {
      * 列表
      */
     @RequestMapping("/list")
+    //@RequiresPermissions("member:memberloginlog:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = memberLoginLogService.queryPage(params);
 
@@ -45,6 +46,7 @@ public class MemberLoginLogController {
      * 信息
      */
     @RequestMapping("/info/{id}")
+    //@RequiresPermissions("member:memberloginlog:info")
     public R info(@PathVariable("id") Long id){
 		MemberLoginLogEntity memberLoginLog = memberLoginLogService.getById(id);
 
@@ -55,6 +57,7 @@ public class MemberLoginLogController {
      * 保存
      */
     @RequestMapping("/save")
+    //@RequiresPermissions("member:memberloginlog:save")
     public R save(@RequestBody MemberLoginLogEntity memberLoginLog){
 		memberLoginLogService.save(memberLoginLog);
 
@@ -65,6 +68,7 @@ public class MemberLoginLogController {
      * 修改
      */
     @RequestMapping("/update")
+    //@RequiresPermissions("member:memberloginlog:update")
     public R update(@RequestBody MemberLoginLogEntity memberLoginLog){
 		memberLoginLogService.updateById(memberLoginLog);
 
@@ -75,6 +79,7 @@ public class MemberLoginLogController {
      * 删除
      */
     @RequestMapping("/delete")
+    //@RequiresPermissions("member:memberloginlog:delete")
     public R delete(@RequestBody Long[] ids){
 		memberLoginLogService.removeByIds(Arrays.asList(ids));
 

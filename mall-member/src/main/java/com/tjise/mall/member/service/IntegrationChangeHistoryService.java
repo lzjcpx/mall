@@ -9,9 +9,9 @@ import java.util.Map;
 /**
  * 积分变化历史记录
  *
- * @author liuzijing
- * @email liuzijing@qq.com
- * @date 2022-09-27 18:17:28
+ * @author LZJ
+ * @email 240582597@qq.com
+ * @date 2019-10-08 09:47:05
  */
 public interface IntegrationChangeHistoryService extends IService<IntegrationChangeHistoryEntity> {
 

@@ -21,9 +21,9 @@ import com.tjise.common.utils.R;
 /**
  * 会员
  *
- * @author liuzijing
- * @email liuzijing@qq.com
- * @date 2022-09-27 18:17:28
+ * @author LZJ
+ * @email 240582597@qq.com
+ * @date 2019-10-08 09:47:05
  */
 @RestController
 @RequestMapping("member/member")
@@ -36,17 +36,19 @@ public class MemberController {
 
     @RequestMapping("/coupons")
     public R test(){
-        MemberEntity member = new MemberEntity();
-        member.setNickname("张三");
-        R memberCoupons = couponFeignService.memberCoupons();
+        MemberEntity memberEntity = new MemberEntity();
+        memberEntity.setNickname("张三");
 
-        return R.ok().put("member", member).put("coupons", memberCoupons.get("coupons"));
+        R membercoupons = couponFeignService.membercoupons();
+        return R.ok().put("member",memberEntity).put("coupons",membercoupons.get("coupons"));
     }
+
 
     /**
      * 列表
      */
     @RequestMapping("/list")
+    //@RequiresPermissions("member:member:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = memberService.queryPage(params);
 
@@ -58,6 +60,7 @@ public class MemberController {
      * 信息
      */
     @RequestMapping("/info/{id}")
+    //@RequiresPermissions("member:member:info")
     public R info(@PathVariable("id") Long id){
 		MemberEntity member = memberService.getById(id);
 
@@ -68,6 +71,7 @@ public class MemberController {
      * 保存
      */
     @RequestMapping("/save")
+    //@RequiresPermissions("member:member:save")
     public R save(@RequestBody MemberEntity member){
 		memberService.save(member);
 
@@ -78,6 +82,7 @@ public class MemberController {
      * 修改
      */
     @RequestMapping("/update")
+    //@RequiresPermissions("member:member:update")
     public R update(@RequestBody MemberEntity member){
 		memberService.updateById(member);
 
@@ -88,6 +93,7 @@ public class MemberController {
      * 删除
      */
     @RequestMapping("/delete")
+    //@RequiresPermissions("member:member:delete")
     public R delete(@RequestBody Long[] ids){
 		memberService.removeByIds(Arrays.asList(ids));
 

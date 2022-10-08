@@ -11,9 +11,9 @@ import lombok.Data;
 /**
  * 商品spu积分设置
  * 
- * @author liuzijing
- * @email liuzijing@qq.com
- * @date 2022-09-27 18:12:18
+ * @author LZJ
+ * @email 240582597@qq.com
+ * @date 2019-10-08 09:36:40
  */
 @Data
 @TableName("sms_spu_bounds")

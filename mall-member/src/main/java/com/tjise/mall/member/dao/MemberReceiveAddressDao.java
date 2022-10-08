@@ -7,9 +7,9 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * 会员收货地址
  * 
- * @author liuzijing
- * @email liuzijing@qq.com
- * @date 2022-09-27 18:17:27
+ * @author LZJ
+ * @email 240582597@qq.com
+ * @date 2019-10-08 09:47:05
  */
 @Mapper
 public interface MemberReceiveAddressDao extends BaseMapper<MemberReceiveAddressEntity> {

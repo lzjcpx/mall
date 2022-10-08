@@ -7,9 +7,9 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * 秒杀活动场次
  * 
- * @author liuzijing
- * @email liuzijing@qq.com
- * @date 2022-09-27 18:12:18
+ * @author LZJ
+ * @email 240582597@qq.com
+ * @date 2019-10-08 09:36:40
  */
 @Mapper
 public interface SeckillSessionDao extends BaseMapper<SeckillSessionEntity> {

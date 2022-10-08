@@ -20,9 +20,9 @@ import com.tjise.common.utils.R;
 /**
  * 会员收藏的专题活动
  *
- * @author liuzijing
- * @email liuzijing@qq.com
- * @date 2022-09-27 18:17:28
+ * @author LZJ
+ * @email 240582597@qq.com
+ * @date 2019-10-08 09:47:05
  */
 @RestController
 @RequestMapping("member/membercollectsubject")
@@ -34,6 +34,7 @@ public class MemberCollectSubjectController {
      * 列表
      */
     @RequestMapping("/list")
+    //@RequiresPermissions("member:membercollectsubject:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = memberCollectSubjectService.queryPage(params);
 
@@ -45,6 +46,7 @@ public class MemberCollectSubjectController {
      * 信息
      */
     @RequestMapping("/info/{id}")
+    //@RequiresPermissions("member:membercollectsubject:info")
     public R info(@PathVariable("id") Long id){
 		MemberCollectSubjectEntity memberCollectSubject = memberCollectSubjectService.getById(id);
 
@@ -55,6 +57,7 @@ public class MemberCollectSubjectController {
      * 保存
      */
     @RequestMapping("/save")
+    //@RequiresPermissions("member:membercollectsubject:save")
     public R save(@RequestBody MemberCollectSubjectEntity memberCollectSubject){
 		memberCollectSubjectService.save(memberCollectSubject);
 
@@ -65,6 +68,7 @@ public class MemberCollectSubjectController {
      * 修改
      */
     @RequestMapping("/update")
+    //@RequiresPermissions("member:membercollectsubject:update")
     public R update(@RequestBody MemberCollectSubjectEntity memberCollectSubject){
 		memberCollectSubjectService.updateById(memberCollectSubject);
 
@@ -75,6 +79,7 @@ public class MemberCollectSubjectController {
      * 删除
      */
     @RequestMapping("/delete")
+    //@RequiresPermissions("member:membercollectsubject:delete")
     public R delete(@RequestBody Long[] ids){
 		memberCollectSubjectService.removeByIds(Arrays.asList(ids));
 

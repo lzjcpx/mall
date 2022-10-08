@@ -9,9 +9,9 @@ import java.util.Map;
 /**
  * 商品评价回复关系
  *
- * @author liuzijing
- * @email liuzijing@qq.com
- * @date 2022-09-28 14:31:52
+ * @author LZJ
+ * @email 240582597@qq.com
+ * @date 2019-10-01 21:08:48
  */
 public interface CommentReplayService extends IService<CommentReplayEntity> {
 

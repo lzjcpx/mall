@@ -20,9 +20,9 @@ import com.tjise.common.utils.R;
 /**
  * 订单操作历史记录
  *
- * @author liuzijing
- * @email liuzijing@qq.com
- * @date 2022-09-27 18:23:39
+ * @author LZJ
+ * @email 240582597@qq.com
+ * @date 2019-10-08 09:56:16
  */
 @RestController
 @RequestMapping("order/orderoperatehistory")
@@ -34,6 +34,7 @@ public class OrderOperateHistoryController {
      * 列表
      */
     @RequestMapping("/list")
+    //@RequiresPermissions("order:orderoperatehistory:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = orderOperateHistoryService.queryPage(params);
 
@@ -45,6 +46,7 @@ public class OrderOperateHistoryController {
      * 信息
      */
     @RequestMapping("/info/{id}")
+    //@RequiresPermissions("order:orderoperatehistory:info")
     public R info(@PathVariable("id") Long id){
 		OrderOperateHistoryEntity orderOperateHistory = orderOperateHistoryService.getById(id);
 
@@ -55,6 +57,7 @@ public class OrderOperateHistoryController {
      * 保存
      */
     @RequestMapping("/save")
+    //@RequiresPermissions("order:orderoperatehistory:save")
     public R save(@RequestBody OrderOperateHistoryEntity orderOperateHistory){
 		orderOperateHistoryService.save(orderOperateHistory);
 
@@ -65,6 +68,7 @@ public class OrderOperateHistoryController {
      * 修改
      */
     @RequestMapping("/update")
+    //@RequiresPermissions("order:orderoperatehistory:update")
     public R update(@RequestBody OrderOperateHistoryEntity orderOperateHistory){
 		orderOperateHistoryService.updateById(orderOperateHistory);
 
@@ -75,6 +79,7 @@ public class OrderOperateHistoryController {
      * 删除
      */
     @RequestMapping("/delete")
+    //@RequiresPermissions("order:orderoperatehistory:delete")
     public R delete(@RequestBody Long[] ids){
 		orderOperateHistoryService.removeByIds(Arrays.asList(ids));
 

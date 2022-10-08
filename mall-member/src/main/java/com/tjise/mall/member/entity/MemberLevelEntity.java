@@ -11,9 +11,9 @@ import lombok.Data;
 /**
  * 会员等级
  * 
- * @author liuzijing
- * @email liuzijing@qq.com
- * @date 2022-09-27 18:17:27
+ * @author LZJ
+ * @email 240582597@qq.com
+ * @date 2019-10-08 09:47:05
  */
 @Data
 @TableName("ums_member_level")

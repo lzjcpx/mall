@@ -20,9 +20,9 @@ import com.tjise.common.utils.R;
 /**
  * 订单退货申请
  *
- * @author liuzijing
- * @email liuzijing@qq.com
- * @date 2022-09-27 18:23:39
+ * @author LZJ
+ * @email 240582597@qq.com
+ * @date 2019-10-08 09:56:16
  */
 @RestController
 @RequestMapping("order/orderreturnapply")
@@ -34,6 +34,7 @@ public class OrderReturnApplyController {
      * 列表
      */
     @RequestMapping("/list")
+    //@RequiresPermissions("order:orderreturnapply:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = orderReturnApplyService.queryPage(params);
 
@@ -45,6 +46,7 @@ public class OrderReturnApplyController {
      * 信息
      */
     @RequestMapping("/info/{id}")
+    //@RequiresPermissions("order:orderreturnapply:info")
     public R info(@PathVariable("id") Long id){
 		OrderReturnApplyEntity orderReturnApply = orderReturnApplyService.getById(id);
 
@@ -55,6 +57,7 @@ public class OrderReturnApplyController {
      * 保存
      */
     @RequestMapping("/save")
+    //@RequiresPermissions("order:orderreturnapply:save")
     public R save(@RequestBody OrderReturnApplyEntity orderReturnApply){
 		orderReturnApplyService.save(orderReturnApply);
 
@@ -65,6 +68,7 @@ public class OrderReturnApplyController {
      * 修改
      */
     @RequestMapping("/update")
+    //@RequiresPermissions("order:orderreturnapply:update")
     public R update(@RequestBody OrderReturnApplyEntity orderReturnApply){
 		orderReturnApplyService.updateById(orderReturnApply);
 
@@ -75,6 +79,7 @@ public class OrderReturnApplyController {
      * 删除
      */
     @RequestMapping("/delete")
+    //@RequiresPermissions("order:orderreturnapply:delete")
     public R delete(@RequestBody Long[] ids){
 		orderReturnApplyService.removeByIds(Arrays.asList(ids));
 

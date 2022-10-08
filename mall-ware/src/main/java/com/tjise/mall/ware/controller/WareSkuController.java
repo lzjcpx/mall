@@ -20,9 +20,9 @@ import com.tjise.common.utils.R;
 /**
  * 商品库存
  *
- * @author liuzijing
- * @email liuzijing@qq.com
- * @date 2022-09-27 18:25:40
+ * @author LZJ
+ * @email 240582597@qq.com
+ * @date 2019-10-08 09:59:40
  */
 @RestController
 @RequestMapping("ware/waresku")
@@ -34,6 +34,7 @@ public class WareSkuController {
      * 列表
      */
     @RequestMapping("/list")
+    //@RequiresPermissions("ware:waresku:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = wareSkuService.queryPage(params);
 
@@ -45,6 +46,7 @@ public class WareSkuController {
      * 信息
      */
     @RequestMapping("/info/{id}")
+    //@RequiresPermissions("ware:waresku:info")
     public R info(@PathVariable("id") Long id){
 		WareSkuEntity wareSku = wareSkuService.getById(id);
 
@@ -55,6 +57,7 @@ public class WareSkuController {
      * 保存
      */
     @RequestMapping("/save")
+    //@RequiresPermissions("ware:waresku:save")
     public R save(@RequestBody WareSkuEntity wareSku){
 		wareSkuService.save(wareSku);
 
@@ -65,6 +68,7 @@ public class WareSkuController {
      * 修改
      */
     @RequestMapping("/update")
+    //@RequiresPermissions("ware:waresku:update")
     public R update(@RequestBody WareSkuEntity wareSku){
 		wareSkuService.updateById(wareSku);
 
@@ -75,6 +79,7 @@ public class WareSkuController {
      * 删除
      */
     @RequestMapping("/delete")
+    //@RequiresPermissions("ware:waresku:delete")
     public R delete(@RequestBody Long[] ids){
 		wareSkuService.removeByIds(Arrays.asList(ids));
 

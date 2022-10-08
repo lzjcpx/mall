@@ -20,9 +20,9 @@ import com.tjise.common.utils.R;
 /**
  * 积分变化历史记录
  *
- * @author liuzijing
- * @email liuzijing@qq.com
- * @date 2022-09-27 18:17:28
+ * @author LZJ
+ * @email 240582597@qq.com
+ * @date 2019-10-08 09:47:05
  */
 @RestController
 @RequestMapping("member/integrationchangehistory")
@@ -34,6 +34,7 @@ public class IntegrationChangeHistoryController {
      * 列表
      */
     @RequestMapping("/list")
+    //@RequiresPermissions("member:integrationchangehistory:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = integrationChangeHistoryService.queryPage(params);
 
@@ -45,6 +46,7 @@ public class IntegrationChangeHistoryController {
      * 信息
      */
     @RequestMapping("/info/{id}")
+    //@RequiresPermissions("member:integrationchangehistory:info")
     public R info(@PathVariable("id") Long id){
 		IntegrationChangeHistoryEntity integrationChangeHistory = integrationChangeHistoryService.getById(id);
 
@@ -55,6 +57,7 @@ public class IntegrationChangeHistoryController {
      * 保存
      */
     @RequestMapping("/save")
+    //@RequiresPermissions("member:integrationchangehistory:save")
     public R save(@RequestBody IntegrationChangeHistoryEntity integrationChangeHistory){
 		integrationChangeHistoryService.save(integrationChangeHistory);
 
@@ -65,6 +68,7 @@ public class IntegrationChangeHistoryController {
      * 修改
      */
     @RequestMapping("/update")
+    //@RequiresPermissions("member:integrationchangehistory:update")
     public R update(@RequestBody IntegrationChangeHistoryEntity integrationChangeHistory){
 		integrationChangeHistoryService.updateById(integrationChangeHistory);
 
@@ -75,6 +79,7 @@ public class IntegrationChangeHistoryController {
      * 删除
      */
     @RequestMapping("/delete")
+    //@RequiresPermissions("member:integrationchangehistory:delete")
     public R delete(@RequestBody Long[] ids){
 		integrationChangeHistoryService.removeByIds(Arrays.asList(ids));
 

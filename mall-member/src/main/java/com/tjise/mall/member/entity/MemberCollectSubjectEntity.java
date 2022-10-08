@@ -10,9 +10,9 @@ import lombok.Data;
 /**
  * 会员收藏的专题活动
  * 
- * @author liuzijing
- * @email liuzijing@qq.com
- * @date 2022-09-27 18:17:28
+ * @author LZJ
+ * @email 240582597@qq.com
+ * @date 2019-10-08 09:47:05
  */
 @Data
 @TableName("ums_member_collect_subject")

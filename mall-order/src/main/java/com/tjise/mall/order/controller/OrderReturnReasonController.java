@@ -20,9 +20,9 @@ import com.tjise.common.utils.R;
 /**
  * 退货原因
  *
- * @author liuzijing
- * @email liuzijing@qq.com
- * @date 2022-09-27 18:23:39
+ * @author LZJ
+ * @email 240582597@qq.com
+ * @date 2019-10-08 09:56:16
  */
 @RestController
 @RequestMapping("order/orderreturnreason")
@@ -34,6 +34,7 @@ public class OrderReturnReasonController {
      * 列表
      */
     @RequestMapping("/list")
+    //@RequiresPermissions("order:orderreturnreason:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = orderReturnReasonService.queryPage(params);
 
@@ -45,6 +46,7 @@ public class OrderReturnReasonController {
      * 信息
      */
     @RequestMapping("/info/{id}")
+    //@RequiresPermissions("order:orderreturnreason:info")
     public R info(@PathVariable("id") Long id){
 		OrderReturnReasonEntity orderReturnReason = orderReturnReasonService.getById(id);
 
@@ -55,6 +57,7 @@ public class OrderReturnReasonController {
      * 保存
      */
     @RequestMapping("/save")
+    //@RequiresPermissions("order:orderreturnreason:save")
     public R save(@RequestBody OrderReturnReasonEntity orderReturnReason){
 		orderReturnReasonService.save(orderReturnReason);
 
@@ -65,6 +68,7 @@ public class OrderReturnReasonController {
      * 修改
      */
     @RequestMapping("/update")
+    //@RequiresPermissions("order:orderreturnreason:update")
     public R update(@RequestBody OrderReturnReasonEntity orderReturnReason){
 		orderReturnReasonService.updateById(orderReturnReason);
 
@@ -75,6 +79,7 @@ public class OrderReturnReasonController {
      * 删除
      */
     @RequestMapping("/delete")
+    //@RequiresPermissions("order:orderreturnreason:delete")
     public R delete(@RequestBody Long[] ids){
 		orderReturnReasonService.removeByIds(Arrays.asList(ids));
 
