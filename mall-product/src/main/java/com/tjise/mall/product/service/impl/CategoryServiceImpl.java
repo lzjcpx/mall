@@ -5,10 +5,7 @@ import com.tjise.mall.product.vo.Catalog2VO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -25,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
-
 //    @Autowired
 //    CategoryDao categoryDao;
 
@@ -104,13 +100,20 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
     @Override
     public Map<String, List<Catalog2VO>> getCatalogJson() {
+
+/**
+ * 优化：
+ * 1.将数据库里的多次查询变为一次
+ */
+        List<CategoryEntity> selectList = baseMapper.selectList(null);
+
         //1.查出所有1级分类
-        List<CategoryEntity> level1CateGorys = getLevel1CateGorys();
+        List<CategoryEntity> level1CateGorys = getParent_cid(selectList, 0L);
 
         //2.封装数据
         Map<String, List<Catalog2VO>> parent_cid = level1CateGorys.stream().collect(Collectors.toMap(k -> k.getCatId().toString(), v -> {
             //1.每一个一级分类，查到这个一级分类的二级分类
-            List<CategoryEntity> categoryEntities = baseMapper.selectList(new QueryWrapper<CategoryEntity>().eq("parent_cid", v.getCatId()));
+            List<CategoryEntity> categoryEntities = getParent_cid(selectList, v.getCatId());
 
             List<Catalog2VO> catalog2VOS = null;
             if (null != categoryEntities) {
@@ -118,7 +121,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                 catalog2VOS = categoryEntities.stream().map(l2 -> {
                     Catalog2VO catalog2VO = new Catalog2VO(v.getCatId().toString(), null, l2.getCatId().toString(), l2.getName());
                     //1.招当前二级分类的三级分类封装成vo
-                    List<CategoryEntity> level3Catelog = baseMapper.selectList(new QueryWrapper<CategoryEntity>().eq("parent_cid", l2.getCatId()));
+                    List<CategoryEntity> level3Catelog = getParent_cid(selectList, l2.getCatId());
                     if (null != level3Catelog){
                         List<Catalog2VO.Catalog3Vo> collect = level3Catelog.stream().map(l3 -> {
                             //2.封装成指定格式数据
@@ -133,7 +136,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
             }
             return catalog2VOS;
         }));
+
         return parent_cid;
+    }
+
+    private List<CategoryEntity> getParent_cid(List<CategoryEntity> selectList, Long parent_cid) {
+        List<CategoryEntity> collect = selectList.stream().filter(item -> item.getParentCid() == parent_cid).collect(Collectors.toList());
+        return collect;
     }
 
     //225,25,2
