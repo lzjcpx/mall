@@ -4,6 +4,7 @@ import com.tjise.mall.product.entity.CategoryEntity;
 import com.tjise.mall.product.service.CategoryService;
 import com.tjise.mall.product.vo.Catalog2VO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
