@@ -7,6 +7,10 @@ import com.tjise.mall.product.vo.Catalog2VO;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
@@ -94,8 +98,20 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
     /**
      * 级联更新所有关联的数据
+     *
+     * @CacheEvict  缓存失效模式
+     * 1、同时进行多种缓存操作     @Caching
+     * 2、删除某个分区下的所有数据   @CacheEvict(value = "category", allEntries = true)
+     * 3、存储同一类型的数据，都可以指定成同一个分区，分区名默认就是缓存的前缀
      * @param category
      */
+//    @CacheEvict(value = {"category"}, key = "'getLevel1CateGorys'")
+//    @Caching(evict = {
+//            @CacheEvict(value = {"category"}, key = "'getLevel1CateGorys'"),
+//            @CacheEvict(value = {"category"}, key = "'getCatalogJson'")
+//    })
+    @CacheEvict(value = "category", allEntries = true)  //失效模式
+//    @CachePut   //双写模式使用这个注解
     @Transactional
     @Override
     public void updateCascade(CategoryEntity category) {
@@ -106,14 +122,75 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         //redis.del("catalogJSON");等待下次主动查询更新
     }
 
+    /**
+     * 1、每一个需要缓存得数据我们都来指定要放到哪个名字得缓存。【缓存的分区（按照业务类型）】
+     * 2、@Cacheable({"category"})
+     *      代表当前方法得结果需要缓存，如果缓存中有，方法不用调用
+     *      如果缓存中没有，会调用方法，最后将方法得结果放入缓存
+     * 3)、默认行为
+     *      1）、如果缓存中有数据，方法不被调用
+     *      2）、key默认自动生成，缓存的名字::SimpleKey【】(自主生成的key指)
+     *      3）、缓存的value值，默认使用jdk序列化机制，将序列化后的数据存到redis
+     *      4）、默认ttl时间，-1
+     *
+     *      自定义：
+     *          1）、指定生成的缓存使用的key    key属性指定，接收一个SpEL
+     *          2）、指定缓存的数据的存活时间     配置文件中修改ttl
+     *          3）、将数据保存为JSON格式:
+     *
+     *
+     * @return
+     */
+    @Cacheable(value = {"category"}, key = "#root.method.name")
     @Override
     public List<CategoryEntity> getLevel1CateGorys() {
+        System.out.println("getLevelCategorys....");
+        long l = System.currentTimeMillis();
         List<CategoryEntity> categoryEntities = baseMapper.selectList(new QueryWrapper<CategoryEntity>().eq("parent_cid", 0));
         return categoryEntities;
     }
 
+    @Cacheable(value = {"category"}, key = "#root.method.name")
     @Override
     public Map<String, List<Catalog2VO>> getCatalogJson() {
+        System.out.println("查询了数据库");
+        List<CategoryEntity> selectList = baseMapper.selectList(null);
+
+        //1.查出所有1级分类
+        List<CategoryEntity> level1CateGorys = getParent_cid(selectList, 0L);
+
+        //2.封装数据
+        Map<String, List<Catalog2VO>> parent_cid = level1CateGorys.stream().collect(Collectors.toMap(k -> k.getCatId().toString(), v -> {
+            //1.每一个一级分类，查到这个一级分类的二级分类
+            List<CategoryEntity> categoryEntities = getParent_cid(selectList, v.getCatId());
+
+            List<Catalog2VO> catalog2VOS = null;
+            if (null != categoryEntities) {
+                //2.封装上面的结果
+                catalog2VOS = categoryEntities.stream().map(l2 -> {
+                    Catalog2VO catalog2VO = new Catalog2VO(v.getCatId().toString(), null, l2.getCatId().toString(), l2.getName());
+                    //1.招当前二级分类的三级分类封装成vo
+                    List<CategoryEntity> level3Catelog = getParent_cid(selectList, l2.getCatId());
+                    if (null != level3Catelog) {
+                        List<Catalog2VO.Catalog3Vo> collect = level3Catelog.stream().map(l3 -> {
+                            //2.封装成指定格式数据
+                            Catalog2VO.Catalog3Vo catalog3Vo = new Catalog2VO.Catalog3Vo(l2.getCatId().toString(), l3.getCatId().toString(), l3.getName());
+                            return catalog3Vo;
+                        }).collect(Collectors.toList());
+                        catalog2VO.setCatalog3List(collect);
+                    }
+                    return catalog2VO;
+                }).collect(Collectors.toList());
+
+            }
+            return catalog2VOS;
+        }));
+
+        return parent_cid;
+    }
+
+//    @Override
+    public Map<String, List<Catalog2VO>> getCatalogJson2() {
         //给缓存中放JSON字符串，拿出的JSON字符串，还逆转为能用的对象类型，【序列化与反序列化】
 
         /**
