@@ -138,10 +138,26 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
      *          2）、指定缓存的数据的存活时间     配置文件中修改ttl
      *          3）、将数据保存为JSON格式:
      *
+     *4)、spring-cache的不足
+     *      1）、读模式：
+     *          缓存穿透：查询一个null数据，解决：缓存空数据：cache-null-values=true
+     *          缓存击穿：大量并发进来同时查询一个正好过期的数据。解决：加锁 ？ 默认时无加锁的;sync = true(加锁，解决击穿)
+     *          缓存雪崩：大量的key同时过期。解决：加随机时间。spring.cache.redis.time-to-live=3600000
+     *      2）、写模式：（缓存与数据库一直）
+     *          1）、读写枷锁。
+     *          2）、引入Canal，感知到MySQL的更新去更新缓存
+     *          3）、读多写少，直接去缓存查询就行
      *
+     *     总结：
+     *          常规数据（读多写少，即时性，一致性要求不高的数据）：完全可以使用Spring-Cache负责缓存的读写;写模式（只要缓存的数据有过期时间就足够了）
+     *
+     *          特殊数据：特殊设计
+     *
+     *     原理：
+     *          CacheManager（RedisCacheManager）->Cache（RedisCache）->Cache负责缓存读写
      * @return
      */
-    @Cacheable(value = {"category"}, key = "#root.method.name")
+    @Cacheable(value = {"category"}, key = "#root.method.name", sync = true)
     @Override
     public List<CategoryEntity> getLevel1CateGorys() {
         System.out.println("getLevelCategorys....");
