@@ -32,7 +32,7 @@ public class SearchParam {
      * skuPrice=1_500/_500/500_
      * brandId=1
      */
-    private Integer hasStock;//是否只显示有货
+    private Integer hasStock = 1;//是否只显示有货  (0无库存，1有库存)
 
     private String skuPrice;//价格区间排序
 
@@ -40,6 +40,6 @@ public class SearchParam {
 
     private List<String> attrs;//属性查询
 
-    private Integer pageNum;//页码
+    private Integer pageNum = 1;//页码
 
 }
