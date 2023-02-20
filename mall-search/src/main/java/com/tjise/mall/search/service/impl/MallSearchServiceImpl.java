@@ -188,7 +188,7 @@ public class MallSearchServiceImpl implements MallSearchService {
         BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
         //1.1 must - 模糊匹配
         if (!StringUtils.isEmpty(param.getKeyword())){
-            boolQuery.must(QueryBuilders.matchQuery("skyTitle", param.getKeyword()));
+            boolQuery.must(QueryBuilders.matchQuery("skuTitle", param.getKeyword()));
         }
         //1.2 bool - filter - 按照三级分类id查询
         if (null != param.getCatalog3Id()){
@@ -215,7 +215,9 @@ public class MallSearchServiceImpl implements MallSearchService {
         }
 
         //1.2 bool - filter - 按照库存是否有进行查询(默认有库存)
-        boolQuery.filter(QueryBuilders.termQuery("hasStock", 1 == param.getHasStock()));
+        if (param.getHasStock() != null) {
+            boolQuery.filter(QueryBuilders.termQuery("hasStock", 1 == param.getHasStock()));
+        }
 
         //1.2 bool - filter - 按照价格区间
         if (!StringUtils.isEmpty(param.getSkuPrice())){

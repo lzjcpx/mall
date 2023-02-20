@@ -33,8 +33,6 @@ public class OssController {
     @RequestMapping("/oss/policy")
     public R policy() {
 
-
-
         //https://gulimall-hello.oss-cn-beijing.aliyuncs.com/hahaha.jpg
 
         String host = "https://" + bucket + "." + endpoint; // host的格式为 bucketname.endpoint
