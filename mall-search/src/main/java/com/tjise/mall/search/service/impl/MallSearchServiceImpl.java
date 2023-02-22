@@ -171,6 +171,12 @@ public class MallSearchServiceImpl implements MallSearchService {
         //5.分页信息、总页码-计算得到
         int totalPages = (int)total % EsConstant.PRODUCT_PAGESIZE == 0? (int)total / EsConstant.PRODUCT_PAGESIZE : (int)total /  EsConstant.PRODUCT_PAGESIZE + 1;
         result.setTotalPages(totalPages);
+
+        List<Integer> pageNavs = new ArrayList<>();
+        for (int i = 1; i <= totalPages; i++) {
+            pageNavs.add(i);
+        }
+        result.setPageNavs(pageNavs);
         return result;
     }
 
@@ -196,7 +202,7 @@ public class MallSearchServiceImpl implements MallSearchService {
         }
         //1.2 bool - filter - 按照品牌id查询
         if (null != param.getBrandId() && 0 < param.getBrandId().size()){
-            boolQuery.filter(QueryBuilders.termsQuery("barndId", param.getBrandId()));
+            boolQuery.filter(QueryBuilders.termsQuery("brandId", param.getBrandId()));
         }
         //1.2 bool - filter - 按照所有指定的属性进行查询
         if (null != param.getAttrs() && 0 < param.getAttrs().size()){
