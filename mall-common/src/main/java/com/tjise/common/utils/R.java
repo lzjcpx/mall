@@ -23,12 +23,19 @@ import java.util.Map;
 public class R extends HashMap<String, Object> {
 	private static final long serialVersionUID = 1L;
 
+	public <T> T getData(String key, TypeReference<T> typeReference){
+		Object date = get(key);
+		String s = JSON.toJSONString(date);
+		T t = JSON.parseObject(s, typeReference);
+		return t;
+	}
+
 	public R setData(Object data){
 		put("data", data);
 		return this;
 	}
 
-	public <T>T getData(TypeReference<T> typeReference){
+	public <T> T getData(TypeReference<T> typeReference){
 		Object date = get("data");
 		String s = JSON.toJSONString(date);
 		T t = JSON.parseObject(s, typeReference);
