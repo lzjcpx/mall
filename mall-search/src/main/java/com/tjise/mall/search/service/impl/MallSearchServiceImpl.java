@@ -9,6 +9,7 @@ import com.tjise.mall.search.constant.EsConstant;
 import com.tjise.mall.search.feign.ProductFeighService;
 import com.tjise.mall.search.service.MallSearchService;
 import com.tjise.mall.search.vo.AttrResponseVo;
+import com.tjise.mall.search.vo.BrandVo;
 import com.tjise.mall.search.vo.SearchParam;
 import com.tjise.mall.search.vo.SearchResult;
 import org.apache.commons.lang.StringUtils;
@@ -319,26 +320,26 @@ public class MallSearchServiceImpl implements MallSearchService {
             result.setNavs(collect);
         }
         //品牌、分类面包屑导航
-//        if (paramVo.getBrandId() != null && paramVo.getBrandId().size() > 0) {
-//            List<SearchResult.NavVo> navs = result.getNavs();
-//            SearchResult.NavVo navVo = new SearchResult.NavVo();
-//            navVo.setNavName("品牌");
-//            //远程查询所有品牌
-//            R r = productFeignService.brandsInfo(paramVo.getBrandId());
-//            if (r.getCode() == 0) {
-//                List<BrandVo> brands = r.getData2("brands", new TypeReference<List<BrandVo>>() {
-//                });
-//                StringBuffer buffer = new StringBuffer();
-//                String replace = "";
-//                for (BrandVo brandVo : brands){
-//                    buffer.append(brandVo.getName()+";");
-//                    replace = replaceQueryString(paramVo,brandVo.getBrandId()+"","brandId");
-//                }
-//                navVo.setNavValue(buffer.toString());
-//                navVo.setLink("http://search.gulimall.com/list.html?" + replace);
-//            }
-//            navs.add(navVo);
-//        }
+        if (paramVo.getBrandId() != null && paramVo.getBrandId().size() > 0) {
+            List<SearchResult.NavVo> navs = result.getNavs();
+            SearchResult.NavVo navVo = new SearchResult.NavVo();
+            navVo.setNavName("品牌");
+            //远程查询所有品牌
+            R r = productFeighService.brandsInfo(paramVo.getBrandId());
+            if (r.getCode() == 0) {
+                List<BrandVo> brands = r.getData("brands", new TypeReference<List<BrandVo>>() {
+                });
+                StringBuffer buffer = new StringBuffer();
+                String replace = "";
+                for (BrandVo brandVo : brands){
+                    buffer.append(brandVo.getBrandName()+";");
+                    replace = replaceQueryString(paramVo,brandVo.getBrandId()+"","brandId");
+                }
+                navVo.setNavValue(buffer.toString());
+                navVo.setLink("http://search.mymall.com/list.html?" + replace);
+            }
+            navs.add(navVo);
+        }
         return result;
     }
 
