@@ -52,10 +52,15 @@ spring:
           predicates:
             - Host=mymall.com, item.mymall.com
 
-        - id: mall_host_route
+        - id: mall_search_route
           uri: lb://mall-search
           predicates:
             - Host=search.mymall.com
+
+        - id: mall_auth_route
+          uri: lb://mall-auth-server
+          predicates:
+            - Host=auth.mymall.com
 
 
   ## 前端项目，/api
