@@ -3,13 +3,13 @@ package com.tjise.mall.member.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.tjise.common.exception.BizCodeEnume;
+import com.tjise.mall.member.exception.PhoneExsistException;
+import com.tjise.mall.member.exception.UsernameExistException;
 import com.tjise.mall.member.feign.CouponFeignService;
+import com.tjise.mall.member.vo.MemberRegistVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.tjise.mall.member.entity.MemberEntity;
 import com.tjise.mall.member.service.MemberService;
@@ -33,6 +33,18 @@ public class MemberController {
 
     @Autowired
     CouponFeignService couponFeignService;
+
+    @PostMapping("/regist")
+    public R regist(@RequestBody MemberRegistVo vo) {
+        try {
+            memberService.regist(vo);
+        }catch (PhoneExsistException e) {
+            return R.error(BizCodeEnume.PHONE_EXEIST_EXCEPTION.getCode(), BizCodeEnume.PHONE_EXEIST_EXCEPTION.getMsg());
+        }catch (UsernameExistException e) {
+            return R.error(BizCodeEnume.USER_EXEIST_EXCEPTION.getCode(), BizCodeEnume.USER_EXEIST_EXCEPTION.getMsg());
+        }
+        return R.ok();
+    }
 
     @RequestMapping("/coupons")
     public R test(){

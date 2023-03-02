@@ -57,6 +57,14 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <!-- tencent -->
+        <dependency>
+            <groupId>com.github.qcloudsms</groupId>
+            <artifactId>qcloudsms</artifactId>
+            <version>1.0.6</version>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>
