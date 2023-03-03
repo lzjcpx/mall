@@ -7,7 +7,9 @@ import com.tjise.common.exception.BizCodeEnume;
 import com.tjise.mall.member.exception.PhoneExsistException;
 import com.tjise.mall.member.exception.UsernameExistException;
 import com.tjise.mall.member.feign.CouponFeignService;
+import com.tjise.mall.member.vo.MemberLoginVo;
 import com.tjise.mall.member.vo.MemberRegistVo;
+import com.tjise.mall.member.vo.SociaUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +36,16 @@ public class MemberController {
     @Autowired
     CouponFeignService couponFeignService;
 
+    @PostMapping("/oauth2/login")
+    public R oauthLogin(@RequestBody SociaUser vo) throws Exception {
+        MemberEntity entity = memberService.login(vo);
+        if (entity != null) {
+            return R.ok().setData(entity);
+        } else {
+            return R.error(BizCodeEnume.LOGINACCT_PASSWORD_INVAILD_EXCEPTION.getCode(), BizCodeEnume.LOGINACCT_PASSWORD_INVAILD_EXCEPTION.getMsg());
+        }
+    }
+
     @PostMapping("/regist")
     public R regist(@RequestBody MemberRegistVo vo) {
         try {
@@ -44,6 +56,16 @@ public class MemberController {
             return R.error(BizCodeEnume.USER_EXEIST_EXCEPTION.getCode(), BizCodeEnume.USER_EXEIST_EXCEPTION.getMsg());
         }
         return R.ok();
+    }
+
+    @PostMapping("/login")
+    public R login(@RequestBody MemberLoginVo vo) {
+        MemberEntity entity = memberService.login(vo);
+        if (entity != null) {
+            return R.ok();
+        } else {
+            return R.error(BizCodeEnume.LOGINACCT_PASSWORD_INVAILD_EXCEPTION.getCode(), BizCodeEnume.LOGINACCT_PASSWORD_INVAILD_EXCEPTION.getMsg());
+        }
     }
 
     @RequestMapping("/coupons")

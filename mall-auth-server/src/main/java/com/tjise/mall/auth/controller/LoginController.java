@@ -7,6 +7,7 @@ import com.tjise.common.utils.R;
 import com.tjise.mall.auth.feign.MemberFeignService;
 import com.tjise.mall.auth.feign.ThirdPartFeignService;
 import com.tjise.mall.auth.util.RandomUtil;
+import com.tjise.mall.auth.vo.UserLoginVo;
 import com.tjise.mall.auth.vo.UserRegistVo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,7 +103,7 @@ public class LoginController {
                     return "redirect:http://auth.mymall.com/login.html";
                 } else {
                     Map<String, String> errors = new HashMap<>();
-                    errors.put("msg", r.getData(new TypeReference<String>(){}));
+                    errors.put("msg", r.getData("msg", new TypeReference<String>(){}));
                     redirectAttributes.addFlashAttribute("errors", errors);
                     return "redirect:http://auth.mymall.com/reg.html";
                 }
@@ -117,6 +118,22 @@ public class LoginController {
             errors.put("code", "验证码错误");
             redirectAttributes.addFlashAttribute("errors", errors);
             return "redirect:http://auth.mymall.com/reg.html";
+        }
+    }
+
+    @PostMapping("/login")
+    public String login(UserLoginVo vo, RedirectAttributes redirectAttributes) {
+        //远程登录
+        R login = memberFeignService.login(vo);
+        if (login.getCode() == 0) {
+            //成功
+            return "redirect:http://mymall.com/reg.html";
+
+        } else {
+            Map<String, String> errors = new HashMap<>();
+            errors.put("msg", login.getData("msg", new TypeReference<String>(){}));
+            redirectAttributes.addFlashAttribute("errors", errors);
+            return "redirect:http://auth.mymall.com/login.html";
         }
     }
 

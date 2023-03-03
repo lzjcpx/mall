@@ -5,7 +5,9 @@ import com.tjise.common.utils.PageUtils;
 import com.tjise.mall.member.entity.MemberEntity;
 import com.tjise.mall.member.exception.PhoneExsistException;
 import com.tjise.mall.member.exception.UsernameExistException;
+import com.tjise.mall.member.vo.MemberLoginVo;
 import com.tjise.mall.member.vo.MemberRegistVo;
+import com.tjise.mall.member.vo.SociaUser;
 
 import java.util.Map;
 
@@ -25,5 +27,9 @@ public interface MemberService extends IService<MemberEntity> {
     void checkPhone(String phone) throws PhoneExsistException;
 
     void checkUserName(String userName) throws UsernameExistException;
+
+    MemberEntity login(MemberLoginVo vo);
+
+    MemberEntity login(SociaUser vo) throws Exception;
 }
 
