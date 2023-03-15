@@ -2,6 +2,7 @@ package com.tjise.mall.auth.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.tjise.common.constant.AuthServerConstant;
 import com.tjise.common.utils.HttpUtils;
 import com.tjise.common.utils.R;
 import com.tjise.mall.auth.feign.MemberFeignService;
@@ -63,7 +64,7 @@ public class OAuth2Controller {
                 //登录成功调回首页
                 //第一次使用session,命令浏览器保存卡号,JsessionId的cookie
                 //子域之间，发卡的时候(指定域名为父域名),即使是子域发卡,父域也可使用
-                session.setAttribute("loginUser",data);
+                session.setAttribute(AuthServerConstant.LOGIN_USER,data);
                 servletResponse.addCookie(new Cookie("JSESSIONID","data"));
                 return "redirect:http://mymall.com";
             } else {
