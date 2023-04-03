@@ -81,4 +81,17 @@ public class CartController {
         return "redirect:http://cart.mymall.com/cart.html";
     }
 
+    @GetMapping("/countItem")
+    public String countItem(@RequestParam("skuId") Long skuId,
+                            @RequestParam("num") Integer num) {
+        cartService.changeItemCount(skuId, num);
+        return "redirect:http://cart.mymall.com/cart.html";
+    }
+
+    @GetMapping("/deleteItem")
+    public String deleteItem(@RequestParam("skuId") Long skuId) {
+        cartService.deleteItem(skuId);
+        return "redirect:http://cart.mymall.com/cart.html";
+    }
+
 }
