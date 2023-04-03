@@ -1,0 +1,27 @@
+{
+  "groups": [
+    {
+      "name": "mymall.thread",
+      "type": "com.tjise.mall.cart.config.ThreadPoolConfigProperties",
+      "sourceType": "com.tjise.mall.cart.config.ThreadPoolConfigProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "mymall.thread.core-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.tjise.mall.cart.config.ThreadPoolConfigProperties"
+    },
+    {
+      "name": "mymall.thread.keep-alive-time",
+      "type": "java.lang.Integer",
+      "sourceType": "com.tjise.mall.cart.config.ThreadPoolConfigProperties"
+    },
+    {
+      "name": "mymall.thread.max-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.tjise.mall.cart.config.ThreadPoolConfigProperties"
+    }
+  ],
+  "hints": []
+}
